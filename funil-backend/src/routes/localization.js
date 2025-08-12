@@ -1,56 +1,69 @@
 const express = require('express');
 const router = express.Router();
 
-// Dados fictícios para demonstração
-const premiumUsers = [
-  'premium', 'vip', 'hotmart', 'eduzz', 'monetizze', 
-  'organic_premium', 'paid', 'conversion'
-];
-
-const hotmartRedirect = 'https://go.hotmart.com/A93977092K';
+// URLs de redirecionamento
+const utmRedirect = 'https://idodolor.replit.app/';
+const defaultRedirect = 'https://www.vitacap.life/details';
 
 router.get('/region', (req, res) => {
-  const { source, medium, campaign, locale, referrer } = req.query;
+  const { utm_source, utm_medium, utm_campaign, locale, referrer } = req.query;
   
-  console.log('🌍 Region check:', { source, medium, campaign, locale, referrer });
+  console.log('🇪🇸 Verificación de región:', { 
+    utm_source, utm_medium, utm_campaign, locale, referrer 
+  });
   
-  const userType = premiumUsers.includes(source) ? 'premium' : 'standard';
+  // Verificar si tiene algún parámetro UTM
+  const hasUtmParams = utm_source || utm_medium || utm_campaign;
+  const userType = hasUtmParams ? 'utm_user' : 'organic_user';
   
   res.json({
     status: 'success',
     platform: 'vitacap.life',
+    idioma: 'español',
     userType: userType,
-    region: 'americas',
+    region: 'internacional',
     localization: {
       detected: true,
-      language: locale || 'en-US',
-      timezone: 'America/Sao_Paulo'
+      language: locale || 'es-ES',
+      timezone: 'America/Sao_Paulo',
+      country: 'internacional'
     },
     content: {
       available: true,
-      courses: userType === 'premium' ? 'all' : 'basic',
-      certification: userType === 'premium'
+      cursos: 'disponibles',
+      certificacion: true,
+      idioma_contenido: 'español'
     },
     routing: {
-      destination: userType === 'premium' ? 'hotmart' : 'details',
-      reason: userType === 'premium' ? 'premium_user_detected' : 'standard_access'
+      destination: hasUtmParams ? 'utm_redirect' : 'details_page',
+      url: hasUtmParams ? utmRedirect : defaultRedirect,
+      reason: hasUtmParams ? 'utm_parameters_detected' : 'organic_access'
+    },
+    utm_info: {
+      utm_source: utm_source || null,
+      utm_medium: utm_medium || null,
+      utm_campaign: utm_campaign || null,
+      has_utm: hasUtmParams
     },
     timestamp: new Date().toISOString()
   });
 });
 
 router.get('/enter', (req, res) => {
-  const { source, medium, campaign } = req.query;
+  const { utm_source, utm_medium, utm_campaign } = req.query;
   
-  console.log('🚪 Platform entry:', { source, medium, campaign });
+  console.log('🚪 Entrada a plataforma:', { utm_source, utm_medium, utm_campaign });
   
-  if (premiumUsers.includes(source)) {
-    console.log('🎯 Redirecting premium user to Hotmart');
-    return res.redirect(hotmartRedirect);
+  // Verificar si tiene algún parámetro UTM
+  const hasUtmParams = utm_source || utm_medium || utm_campaign;
+  
+  if (hasUtmParams) {
+    console.log('🎯 Usuario con UTM - Redirigiendo a idodolor.replit.app');
+    return res.redirect(utmRedirect);
   }
   
-  console.log('👤 Redirecting standard user to details page');
-  res.redirect('https://vitacap.life/details');
+  console.log('👤 Usuario orgánico - Redirigiendo a página de detalles');
+  res.redirect(defaultRedirect);
 });
 
 module.exports = router;
