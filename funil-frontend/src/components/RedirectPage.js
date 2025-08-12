@@ -82,8 +82,8 @@ const RedirectPage = () => {
         platform: navigator.platform,
         cookieEnabled: navigator.cookieEnabled,
         onLine: navigator.onLine,
-        screenResolution: `${screen.width}x${screen.height}`,
-        colorDepth: screen.colorDepth,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        colorDepth: window.screen.colorDepth,
         referrer: document.referrer || 'direct',
         userAgent: navigator.userAgent.substring(0, 100) // Parcial
       };
