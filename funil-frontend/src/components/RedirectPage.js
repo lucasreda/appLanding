@@ -1,122 +1,44 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const RedirectPage = () => {
-  useEffect(() => {
-    const handleRedirect = async () => {
-      try {
-        // Obtener parámetros de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const source = urlParams.get('utm_source');
-        const medium = urlParams.get('utm_medium');
-        const campaign = urlParams.get('utm_campaign');
-        
-        console.log('🇪🇸 Parámetros detectados:', { source, medium, campaign });
-        
-        // Verificar si hay algún parámetro UTM
-        const hasUtmParams = source || medium || campaign;
-        
-        if (hasUtmParams) {
-          console.log('🎯 UTM detectado - Redirigiendo a idodolor.replit.app');
-          window.location.href = 'https://idodolor.replit.app/';
-          return;
-        }
-        
-        // Si no hay UTM, ir a detalles
-        console.log('👤 Sin UTM - Redirigiendo a página de detalles');
-        window.location.href = 'https://www.vitacap.life/details';
-        
-      } catch (error) {
-        console.error('❌ Error en redirección:', error);
-        // Fallback a página de detalles
-        window.location.href = 'https://www.vitacap.life/details';
-      }
-    };
-
-    // Ejecutar redirección después de un breve delay
-    const timer = setTimeout(handleRedirect, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  const handleContinue = () => {
+    window.location.href = 'https://vitacap.life';
+  };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      backgroundColor: '#f0f8ff',
-      fontFamily: 'Arial, sans-serif',
-      color: '#2c3e50'
-    }}>
-      <div style={{
-        textAlign: 'center',
-        padding: '40px',
-        backgroundColor: 'white',
-        borderRadius: '15px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-        maxWidth: '500px',
-        margin: '20px'
-      }}>
-        <div style={{
-          width: '60px',
-          height: '60px',
-          border: '4px solid #3498db',
-          borderTop: '4px solid transparent',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
-          margin: '0 auto 30px'
-        }}></div>
-        
-        <h1 style={{
-          fontSize: '2.5em',
-          marginBottom: '20px',
-          color: '#27ae60'
-        }}>
-          🌱 VitaCap Life
-        </h1>
-        
-        <h2 style={{
-          fontSize: '1.5em',
-          marginBottom: '30px',
-          color: '#34495e'
-        }}>
-          Plataforma de Educación en Salud y Bienestar
-        </h2>
-        
-        <div style={{
-          fontSize: '1.1em',
-          lineHeight: '1.6',
-          marginBottom: '30px',
-          color: '#7f8c8d'
-        }}>
-          <p>🔍 Analizando tu acceso...</p>
-          <p>📍 Detectando ubicación y preferencias...</p>
-          <p>🎯 Preparando contenido personalizado...</p>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              ¿Desea continuar al sitio en español?
+            </h2>
+            
+            <button
+              onClick={handleContinue}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            >
+              Continuar
+            </button>
+          </div>
         </div>
         
-        <div style={{
-          padding: '20px',
-          backgroundColor: '#ecf0f1',
-          borderRadius: '10px',
-          marginTop: '20px'
-        }}>
-          <p style={{ 
-            margin: 0, 
-            fontSize: '0.9em',
-            color: '#7f8c8d'
-          }}>
-            ✨ Redirigiendo a la mejor experiencia educativa para ti
+        {/* Footer */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-600">
+            Accediendo a{' '}
+            <a 
+              href="https://vitacap.life" 
+              className="text-blue-600 hover:text-blue-500 underline"
+            >
+              vitacap.life
+            </a>
+          </p>
+          <p className="text-xs text-gray-500 mt-2">
+            © 2024 VitaCap. Todos los derechos reservados.
           </p>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 };
