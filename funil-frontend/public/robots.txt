@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://healthwellnesseducation.com/sitemap.xml
+
+# Health content guidelines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Medical content crawlers
+User-agent: MedlinePlusBot
+Allow: /
+
+User-agent: HealthTapBot
+Allow: /
+
+# Disallow non-essential crawlers for health content
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
